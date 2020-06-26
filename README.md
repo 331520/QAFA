@@ -1,4 +1,4 @@
-## Alex Arnuzov Demo Project
+# Alex Arnuzov Demo Project
 ## Features:
 #### Selenium  
 #### Java
