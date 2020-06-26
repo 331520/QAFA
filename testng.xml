@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="firstSuite">
+    <parameter name="browser" value="chrome" />
+    <parameter name="scId" value="1-16DBZCFA" />
+    <test name="firstTest">
+        <classes>
+            <class name="test.java.melonsoft.MainTest" />
+            <class name="test.java.melonsoft.SalesCaseTest" />
+        </classes>
+    </test>
+</suite>
