@@ -12,6 +12,16 @@ import static org.testng.Assert.assertEquals;
 
 @Epic("Sales Case Tests")
 public class SalesCaseTest extends BaseSetup {
+    /**
+     * The SalesCaseTest implements an application that
+     * tests search exists Sales Case process of Konecranes company
+     * by ID and check Customer Contact
+     *
+     *
+     * @author Alex Arbuzov
+     * @version 1.0
+     * @since 2020-06-26
+     */
 
     HomePage homePage;
     SalesCasePage salesCasePage;
@@ -24,13 +34,13 @@ public class SalesCaseTest extends BaseSetup {
     }
 
 
-    //test sales case page
+    //Search Sales Case and check Customer Contact
     @Parameters({"scId"})
     @Test(priority = 1)
-    public void openSalesCase(@Optional("1-16DBZCFA") String scId) throws InterruptedException {
+    public void openSalesCase(@Optional("1-16DBZCFA") String scId)  {
         System.out.println(scId);
         homePage.open();
-        String actualTitle = driver.getTitle();
+        //String actualTitle = driver.getTitle();
         salesCasePage.open();
         salesCasePage.searchSalesCase(scId);
         salesCasePage.getCustomerContact(hashMap);
@@ -38,10 +48,10 @@ public class SalesCaseTest extends BaseSetup {
         assertEquals(hashMap.get("customerContact"), "SYNLAIT MILK LIMITED", "Wrong Customer Account: " + hashMap.get("customerContact"));
     }
 
-    //test sales case page
+    //check Customer Contact
     @Parameters({"scId"})
     @Test(priority = 2)
-    public void openSalesCaseF(@Optional("1-16DBZCFA") String scId) throws InterruptedException {
+    public void openSalesCaseF(@Optional("1-16DBZCFA") String scId)  {
         System.out.println(scId);
         homePage.open();
         //String actualTitle =  driver.getTitle();

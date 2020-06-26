@@ -15,8 +15,17 @@ import org.testng.annotations.BeforeMethod;
 import static io.github.bonigarcia.wdm.config.DriverManagerType.CHROME;
 
 public class BaseSetup {
+    /**
+     * The BaseSetup class implements an basic setup of tests
+     *
+     * @author Alex Arbuzov
+     * @version 1.0
+     * @since 2020-06-26
+     */
+
     WebDriver driver;
 
+    //Setup driver, waiting, and driver options
     @BeforeMethod
     public void beforeMethod(ITestContext iTestContext) {
         WebDriverManager.getInstance(CHROME).setup();
@@ -35,15 +44,15 @@ public class BaseSetup {
         driver.quit();
     }
 
+    //Create allure string attachment
     @Attachment
     private String attachStringToAllure() {
         return "Attach";
     }
 
+    //Create allure screenshots
     @Attachment(value = "screenshot", type = "image/png")
     private byte[] attachScreenToAllure() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
-
-
 }
