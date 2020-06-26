@@ -1,3 +1,12 @@
+/**
+ * The MainTest implements an application that
+ * tests lo-in - log-out process of
+ *
+ * @author  Zara Ali
+ * @version 1.0
+ * @since   2014-03-31
+ */
+
 package test.java.melonsoft;
 
 import io.qameta.allure.Epic;
