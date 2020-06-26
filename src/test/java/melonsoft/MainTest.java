@@ -1,12 +1,3 @@
-/**
- * The MainTest implements an application that
- * tests lo-in - log-out process of
- *
- * @author  Zara Ali
- * @version 1.0
- * @since   2014-03-31
- */
-
 package test.java.melonsoft;
 
 import io.qameta.allure.Epic;
@@ -18,33 +9,39 @@ import test.java.melonsoft.po.HomePage;
 import test.java.melonsoft.po.SalesCasePage;
 import test.java.melonsoft.utils.RetryAnalyzer;
 
-import java.util.HashMap;
-
 import static org.testng.Assert.assertEquals;
+
 @Epic("Login")
 public class MainTest extends BaseSetup {
+    /**
+     * The MainTest implements an application that
+     * tests lo-in and log-out process of Konecranes company
+     * PROD instance of Siebel CRM
+     *
+     * @author Alex Arbuzov
+     * @version 1.0
+     * @since 2020-06-26
+     */
 
     HomePage homePage;
     SalesCasePage salesCasePage;
-    HashMap hashMap;
 
+
+    //Setup test
     @BeforeMethod
     public void initialize() {
         homePage = new HomePage(driver);
         salesCasePage = new SalesCasePage(driver);
     }
 
-
     //test login to Siebel
     @Parameters({"browser"})
     @Test(priority = 1, retryAnalyzer = RetryAnalyzer.class)
-    public void successLogin(@Optional("fFox") String browser) throws InterruptedException {
+    public void successLogin(@Optional("fFox") String browser) {
         System.out.println(browser);
         homePage.open();
-        String actualTitle =  driver.getTitle();
+        String actualTitle = driver.getTitle();
         homePage.exit();
         assertEquals(actualTitle, "Siebel", "Siebel's homepage wasn't opened. Instead was opened : " + actualTitle);
     }
-
-
 }
