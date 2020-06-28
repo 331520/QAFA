@@ -31,8 +31,8 @@ public class SalesCaseTest extends BaseSetup {
     public void initialize() {
         homePage = new HomePage(driver);
         salesCasePage = new SalesCasePage(driver);
+        hashMap = new HashMap();
     }
-
 
     //Search Sales Case and check Customer Contact
     @Parameters({"scId"})
@@ -49,7 +49,7 @@ public class SalesCaseTest extends BaseSetup {
     }
 
     //check Customer Contact
-    @Parameters({"scId"})
+/*    @Parameters({"scId"})
     @Test(priority = 2)
     public void openSalesCaseF(@Optional("1-16DBZCFA") String scId)  {
         System.out.println(scId);
@@ -60,5 +60,5 @@ public class SalesCaseTest extends BaseSetup {
         salesCasePage.getCustomerContact(hashMap);
         homePage.exit();
         assertEquals(hashMap.get("customerContact"), "SYNLAIT MILK LIMITE", "Wrong Customer Account: " + hashMap.get("customerContact"));
-    }
+    }*/
 }
