@@ -45,9 +45,9 @@ public class AgreementPage {
     }
 
     @Step("Search Agreement by Id")
-    public AgreementPage searchAgreement() {
+    public AgreementPage searchAgreement(String agreementId) {
         wait.until(ExpectedConditions.elementToBeClickable(agreeNumberField)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(agreeNumberFieldInput)).sendKeys("1-46592565857" + "\r\n");
+        wait.until(ExpectedConditions.elementToBeClickable(agreeNumberFieldInput)).sendKeys(agreementId + "\r\n");
         return null;
     }
 

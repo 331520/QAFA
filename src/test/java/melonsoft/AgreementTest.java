@@ -46,7 +46,7 @@ public class AgreementTest extends BaseSetup {
         agreementPage.open(hashMap); // go to agreements tab
         String pageTitle = hashMap.get("pageTitle").toString();
         assertEquals(pageTitle, "All Agreements Across Organization:", "Wrong Customer Account: " + pageTitle);
-        agreementPage.searchAgreement();
+        agreementPage.searchAgreement(agreementId);
         agreementPage.getAgreementsAmount(hashMap);
         int expAgreementsAmount = 7; //expected agreements amount
         int actAgreementsAmount = (int) hashMap.get("agreementsAmount"); //actual agreements amount

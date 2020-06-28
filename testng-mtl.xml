@@ -9,8 +9,8 @@
     <parameter name="agreementId" value="1-46592565857" />
     <test name="firstTest">
         <classes>
-<!--            <class name="test.java.melonsoft.MainTest" />
-            <class name="test.java.melonsoft.SalesCaseTest" />-->
+            <class name="test.java.melonsoft.MainTest" />
+            <class name="test.java.melonsoft.SalesCaseTest" />
             <class name="test.java.melonsoft.AgreementTest" />
         </classes>
     </test>
