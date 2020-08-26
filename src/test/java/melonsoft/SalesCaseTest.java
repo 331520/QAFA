@@ -39,7 +39,7 @@ public class SalesCaseTest extends BaseSetup {
     @Test(priority = 1)
     public void openSalesCase(@Optional("1-16DBZCFA") String scId)  {
         System.out.println(scId);
-        homePage.open();
+        homePage.openP();
         //String actualTitle = driver.getTitle();
         salesCasePage.open();
         salesCasePage.searchSalesCase(scId);

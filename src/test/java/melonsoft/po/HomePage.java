@@ -22,6 +22,11 @@ public class HomePage {
     @FindBy(xpath = "//*[@name='SWEUserName']")
     WebElement sweusername;
 
+    @FindBy(xpath = "//*[@name='SWEPassword']")
+    WebElement swepassword;
+
+    @FindBy(linkText = "Login")
+    WebElement loginButton;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -30,8 +35,22 @@ public class HomePage {
     }
 
     @Step("Open Home Page")
-    public HomePage open() {
+    public HomePage openP() {
         driver.get(PropertyLoader.loadProperty("url"));
+        wait.until(ExpectedConditions.visibilityOf(settings));
+        return this;
+    }
+
+    @Step("Open Home Page at TEST instance")
+    public HomePage openT() {
+        String testUrl = PropertyLoader.loadProperty("url_trae_usmmbm01");
+
+        driver.get(testUrl);
+        wait.until(ExpectedConditions.visibilityOf(sweusername));
+        sweusername.sendKeys("USMMBM01");
+        swepassword.sendKeys("USr174");
+        loginButton.click();
+
         wait.until(ExpectedConditions.visibilityOf(settings));
         return this;
     }

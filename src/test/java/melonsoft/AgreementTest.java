@@ -42,7 +42,7 @@ public class AgreementTest extends BaseSetup {
     @Test(priority = 1)
     public void openAgreements(@Optional("1-46592565857") String agreementId)  {
         System.out.println("check for agreement : " + agreementId);
-        homePage.open();
+        homePage.openP();
         agreementPage.open(hashMap); // go to agreements tab
         String pageTitle = hashMap.get("pageTitle").toString();
         assertEquals(pageTitle, "All Agreements Across Organization:", "Wrong Customer Account: " + pageTitle);

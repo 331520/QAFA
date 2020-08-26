@@ -39,7 +39,7 @@ public class MainTest extends BaseSetup {
     @Test(priority = 1, retryAnalyzer = RetryAnalyzer.class)
     public void successLogin(@Optional("fFox") String browser) {
         System.out.println(browser);
-        homePage.open();
+        homePage.openP();
         String actualTitle = driver.getTitle();
         homePage.exit();
         assertEquals(actualTitle, "Siebel", "Siebel's homepage wasn't opened. Instead was opened : " + actualTitle);
