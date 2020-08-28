@@ -70,7 +70,16 @@ public class HomePage {
 
     @Step("Exit from Siebel")
     public HomePage exit() {
-        wait.until(ExpectedConditions.elementToBeClickable(settings)).click();
+        for (int j = 0; j <10; j++) {
+            try {
+                Thread.sleep(500);
+                wait.until(ExpectedConditions.elementToBeClickable(settings)).click();
+                System.out.println("Settings opened");
+                break;
+            } catch (Exception e) {
+                System.out.println("Settings Button isn't active yet");
+            }
+        }
         wait.until(ExpectedConditions.elementToBeClickable(logout)).click();
         wait.until(ExpectedConditions.visibilityOf(sweusername));
         return this;

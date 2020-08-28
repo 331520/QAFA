@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.java.melonsoft.utils.PropertyLoader;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +56,10 @@ public class AccountPage {
     //Pick Asset:Query Globally button
     @FindBy(xpath = "//*[@title='Pick Asset:Query Globally']")
     WebElement queryGloballyButton;
+
+    //Service Products:Add button
+    @FindBy(xpath = "//*[@title='Service Products:Add']")
+    WebElement agreeServiceProductsAddButton;
 
     //Customer P.O. #: field
     @FindBy(xpath = "//*[@aria-labelledby='PONumber_Label']")
@@ -128,6 +134,14 @@ public class AccountPage {
     @FindBy(id = "KC_Payment_Terms_Label")
     WebElement agrePaymentTermsField;
 
+    //KC Visits
+    @FindBy(css = "td[id$='KC_Visits']")
+    List <WebElement> agreKCVisits;
+
+    //KC Estimated Hours
+    @FindBy(css = "td[id$='KC_Estimated_Hours']")
+    List <WebElement> agreKCEstimatedHours;
+
     //Task 'Labor Hours' field
     @FindBy(id = "1_KC_Labor_Hours")
     WebElement agreTaskLaborHoursField;
@@ -139,7 +153,6 @@ public class AccountPage {
     //Task 'CMII Value' field
     @FindBy(id = "KC_CMII_Value_Label")
     WebElement agreTaskCMIIValueField;
-
 
 
     //Task Service Contact Person field
@@ -158,6 +171,10 @@ public class AccountPage {
     @FindBy(name = "Account_Number")
     WebElement accIdFieldActive;
 
+    //KC Visits Field Active
+    @FindBy(name = "KC_Visits")
+    WebElement agreeKCVisits;
+
     //KC_Unit_Price_-_Display field
     @FindBy(name = "KC_Unit_Price_-_Display")
     WebElement getAgreeUnitPriceDisplayField;
@@ -173,6 +190,10 @@ public class AccountPage {
     //account page checkpoint
     @FindBy(name = "Description")
     WebElement srDescriptionActiveField;
+
+    //KC Estimated Hours button
+    @FindBy(name = "KC_Estimated_Hours")
+    WebElement agreeKCEstimatedHours;
 
     //account page checkpoint
     @FindBy(linkText = "Service Requests")
@@ -331,6 +352,11 @@ public class AccountPage {
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
 
+        return this;
+    }
+
+    @Step("Create New Agreement - 2.4. Annual Cost Estimates step")
+    public AccountPage createNewAgree_AnnCostEst() {
         //2.4. Annual Cost Estimates step
         wait.until(ExpectedConditions.visibilityOf(agreTaskAnCostEstButton));
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
@@ -339,16 +365,18 @@ public class AccountPage {
         agreTaskLaborHoursField.sendKeys("10");
         agreTaskLaborHoursField.sendKeys(Keys.TAB);
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
+        return this;
+    }
 
-
+    @Step("Create New Agreement - 3.1. Service products and charges")
+    public AccountPage createNewAgree_SPaCrg() {
         //3.1. Service products and charges
         wait.until(ExpectedConditions.visibilityOf(agreTaskCMIIValueField));
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
-
         //Add at least 2a Service Product:1
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNewServiceProductsButton)).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("td[id$='Product']"))).click();
-        appletButton = driver.findElements(By.className("siebui-icon-pick"));
+        List<WebElement> appletButton = driver.findElements(By.className("siebui-icon-pick"));
         appletButton.get(0).click();
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskLoadTestServiceProduct)).click();
         wait.until(ExpectedConditions.elementToBeClickable(pickProductOKButton)).click();
@@ -383,7 +411,15 @@ public class AccountPage {
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskAirbalancersServiceProduct)).click();
         wait.until(ExpectedConditions.elementToBeClickable(pickProductOKButton)).click();
         List<WebElement> productUnitPrice = driver.findElements(By.cssSelector("td[id$='KC_Unit_Price_-_Display']"));
-        wait.until(ExpectedConditions.elementToBeClickable(productUnitPrice.get(1))).click();
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(500);
+                wait.until(ExpectedConditions.elementToBeClickable(productUnitPrice.get(1))).click(); // crash
+                break;
+            }catch (Exception e){
+                System.out.println("error click productUnitPrice field " + e.getMessage());
+            }
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Unit_Price_-_Display"))).sendKeys("2000");
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
         return this;
@@ -393,9 +429,18 @@ public class AccountPage {
     public AccountPage createNewAgree_AssAss() {
         wait.until(ExpectedConditions.visibilityOf(agreTaskRemoveFromSelectedAssets));
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
-        //В Assets апплете добавляем хотя бы 2 ассета через Add кнопку
+        //In the Assets applet, add at least 2 assets via the Add button
         for (int i = 0; i < 2; i++) {
-            wait.until(ExpectedConditions.elementToBeClickable(agreTaskAssetsAddButton)).click();
+            for (int j = 0; j < 10; j++) {
+                try {
+                    Thread.sleep(500);
+                    wait.until(ExpectedConditions.elementToBeClickable(agreTaskAssetsAddButton)).click();
+                    System.out.println("Asset Added");
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Task Assets Add Button isn't active yet");
+                }
+            }
             wait.until(ExpectedConditions.visibilityOf(queryGloballyButton));
             List<WebElement> assetNumberField = driver.findElements(By.cssSelector("td[id$='Account_Primary_City']"));
             wait.until(ExpectedConditions.elementToBeClickable(assetNumberField.get(i))).click();
@@ -403,4 +448,56 @@ public class AccountPage {
         }
         return this;
     }
+
+    @Step("Create New Agreement - 4.1. Associate assets and service products Add service products")
+    public AccountPage createNewAgree_AssAddSP() {
+        wait.until(ExpectedConditions.visibilityOf(agreeServiceProductsAddButton));
+        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 10; j++) {
+                try {
+                    Thread.sleep(500);
+                    wait.until(ExpectedConditions.elementToBeClickable(agreeServiceProductsAddButton)).click();
+                    break;
+                } catch (Exception e) {
+                    System.out.println();
+                }
+            }
+            wait.until(ExpectedConditions.elementToBeClickable(pickProductOKButton));
+            List<WebElement> assetServiceProduct = driver.findElements(By.cssSelector("td[id$='_Product']"));
+            assetServiceProduct.get(i).click();
+            wait.until(ExpectedConditions.elementToBeClickable(pickProductOKButton)).click();
+            for (int j = 0; j < 10; j++) {
+                try {
+                    Thread.sleep(500);
+                    wait.until(ExpectedConditions.elementToBeClickable(agreKCEstimatedHours.get(i))).click(); // crash
+                    break;
+                } catch (Exception e) {
+                    System.out.println("error click KC_Estimated_Hours " + e.getMessage());
+                }
+            }
+            wait.until(ExpectedConditions.visibilityOf(agreeKCEstimatedHours)).sendKeys("10");
+            wait.until(ExpectedConditions.visibilityOf(agreKCVisits.get(i)));
+            wait.until(ExpectedConditions.elementToBeClickable(agreKCVisits.get(i))).click();
+            wait.until(ExpectedConditions.visibilityOf(agreeKCVisits)).sendKeys("3 visit/year");
+            agreeKCVisits.sendKeys(Keys.TAB);
+
+            Date date= new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int month = cal.get(Calendar.MONTH);
+            int year = cal.get(Calendar.YEAR);
+
+            int nextMonthNumber = month +2;
+            int nextNextMonthNumber = month +3;
+            int nextNextNextMonthNumber = month +4;
+            String firstSrDate = month + "/" + "2" + "/" + year;
+
+            System.out.println("First SR date : " + firstSrDate);
+
+            System.out.println(assetServiceProduct.size());
+        }
+        return this;
+    }
+
 }

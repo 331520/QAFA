@@ -67,9 +67,11 @@ public class AgreementTest extends BaseSetup {
         accountPage.open(hashMap);
         accountPage.searchAccount(accountId);
         accountPage.goToAgr();
-        attachScreenToAllureYet();
         accountPage.createNewAgree(cTst());
+        accountPage.createNewAgree_AnnCostEst();
+        accountPage.createNewAgree_SPaCrg();
         accountPage.createNewAgree_AssAss();
+        accountPage.createNewAgree_AssAddSP();
         homePage.exit();
     }
 }

@@ -1,5 +1,6 @@
 package test.java.melonsoft.utils;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
 public class Listener implements
@@ -36,8 +37,8 @@ public class Listener implements
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         System.out.println("test failed : " + iTestResult.getTestClass().getName() +". Test name: "+ iTestResult.getMethod().getConstructorOrMethod().getName());
-        /*Screenshot screenshot = new Screenshot((WebDriver) iTestResult.getTestContext().getAttribute("driver"));
-        screenshot.getScreenshot(iTestResult);*/
+        Screenshot screenshot = new Screenshot((WebDriver) iTestResult.getTestContext().getAttribute("driver"));
+        screenshot.getScreenshot(iTestResult);
     }
 
     @Override
