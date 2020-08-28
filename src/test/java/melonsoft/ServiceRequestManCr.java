@@ -32,14 +32,15 @@ public class ServiceRequestManCr extends BaseSetup{
 
     //create sc
     @Test(priority = 1)
-    public  void createSalesCAseUnderAccount(@Optional("1-1005U03T") String accountId){
+    public  void createServiceRequestUnderAccount(@Optional("1-1005U03T") String accountId){
         System.out.println("check for account : " + accountId);
+        hashMap.put("t", "srT");
         //open home page
-        homePage.openT();
+        homePage.openT(hashMap);
         accountPage.open(hashMap);
         accountPage.searchAccount(accountId);
         accountPage.goToSr();
-        accountPage.createNewSR("str");
+        accountPage.createNewSR(cTst());
         homePage.exit(); //correct exit home Siebel
     }
 
