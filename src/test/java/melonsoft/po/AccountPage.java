@@ -1,16 +1,14 @@
 package test.java.melonsoft.po;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.java.melonsoft.utils.PropertyLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,9 +136,21 @@ public class AccountPage {
     @FindBy(css = "td[id$='KC_Visits']")
     List <WebElement> agreKCVisits;
 
+    //Agrreement KC_Start_Date Id
+    @FindBy(css = "td[id$='KC_Start_Date']")
+    List <WebElement> kcStartDate;
+
+    //Agrreement KC_Start_Date Name
+    @FindBy(name = "KC_Start_Date")
+    WebElement kcStartDateEditable;
+
     //KC Estimated Hours
     @FindBy(css = "td[id$='KC_Estimated_Hours']")
     List <WebElement> agreKCEstimatedHours;
+
+    //KC Selected Flag
+    @FindBy(css = "td[id$='KC_Selected_Flag']")
+    List <WebElement> agreKCSelectedFlag;
 
     //Task 'Labor Hours' field
     @FindBy(id = "1_KC_Labor_Hours")
@@ -215,6 +225,9 @@ public class AccountPage {
     @FindBy(name = "KC_Service_Product_Code")
     WebElement spFieldActive;
 
+    // KC Selected Flag
+    @FindBy(name = "KC_Selected_Flag")
+    WebElement agreeSPKCSelectedFlag;
 
     public AccountPage(WebDriver driver) {
         this.driver = driver;
@@ -255,7 +268,7 @@ public class AccountPage {
 
     @Step("Search Account By Id")
     public AccountPage searchAccount(String accountId) {
-        wait.until(ExpectedConditions.elementToBeClickable(accIdField)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(accIdField)).click(); //crash
         wait.until(ExpectedConditions.elementToBeClickable(accIdFieldActive)).sendKeys(accountId + "\r\n");
         wait.until(ExpectedConditions.elementToBeClickable(accountsyourKONECRANESButton));
         wait.until(ExpectedConditions.visibilityOf(accLink)).click();
@@ -287,7 +300,7 @@ public class AccountPage {
             }
         }
         wait.until(ExpectedConditions.elementToBeClickable(agreeTabLink.get(1))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(agreeCreateNewButton));
+        wait.until(ExpectedConditions.elementToBeClickable(agreeCreateNewButton)); // crash
         return this;
     }
 
@@ -319,7 +332,7 @@ public class AccountPage {
         wait.until(ExpectedConditions.elementToBeClickable(agreeCreateNewButton)).click();
         wait.until(ExpectedConditions.elementToBeClickable(gotoInboxLink));
         wait.until(ExpectedConditions.elementToBeClickable(pmeInfoLabel));
-        wait.until(ExpectedConditions.elementToBeClickable(taskPauseButton));
+        wait.until(ExpectedConditions.elementToBeClickable(taskPauseButton)); //crash
         agrePONumberLabelField.sendKeys("QAFA1");
         agrePOAmtLabelField.sendKeys("1000");
         agreKCSPField.sendKeys("SP21A-CARE Preventive Maint.");
@@ -335,7 +348,7 @@ public class AccountPage {
         //
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
         wait.until(ExpectedConditions.visibilityOf(accTaskAddress_LineField));
-        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
+        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText()); //crash
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
         wait.until(ExpectedConditions.visibilityOf(agrePaymentTermsField));
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
@@ -482,20 +495,56 @@ public class AccountPage {
             wait.until(ExpectedConditions.visibilityOf(agreeKCVisits)).sendKeys("3 visit/year");
             agreeKCVisits.sendKeys(Keys.TAB);
 
-            Date date= new Date();
+            // find  First SR Date filed
+            //List<WebElement> kcStartDateList = driver.findElements((By.);
+            kcStartDate.get(i).click();
+
+            //Sex with First SR Date. For three month
+            SimpleDateFormat m = new SimpleDateFormat("M");
+            SimpleDateFormat y = new SimpleDateFormat("yyyy");
+            String strMonth; //
+
+            Date date = new Date();
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            int month = cal.get(Calendar.MONTH);
-            int year = cal.get(Calendar.YEAR);
 
-            int nextMonthNumber = month +2;
-            int nextNextMonthNumber = month +3;
-            int nextNextNextMonthNumber = month +4;
-            String firstSrDate = month + "/" + "2" + "/" + year;
+            for (int j = 0; j < 3; j++) {
+                cal.add(Calendar.MONTH, 1);
+                strMonth = m.format(cal.getTime());
+                String firstSrDate = strMonth + "/2/" + y.format(cal.getTime());
+                // set First SR Date
+                if (j==0){
+                    System.out.println("First SR Date is : " + strMonth + "/2/" + y.format(cal.getTime()));
+                    // set agreement's First SR Date
+                    wait.until(ExpectedConditions.elementToBeClickable(kcStartDateEditable)).sendKeys(firstSrDate);
+                    wait.until(ExpectedConditions.elementToBeClickable(kcStartDateEditable)).sendKeys(Keys.TAB);
+                }
+                //find month field
+                String kcMonthCssSelectorString = "td[id$='KC_Month"+strMonth+"']";
+                List<WebElement> kcMonthFieldList = driver.findElements(By.cssSelector(kcMonthCssSelectorString));
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", kcMonthFieldList.get(i));
+                /*
+                for (int k = 0; k < 2; k++) {
+                    try {
+                        wait.until(ExpectedConditions.visibilityOf(kcMonthFieldList.get(i))); // crash
+                    }catch (Exception e){
+                        System.out.println("kcMonthFieldList is invisible");
+                    }
+                }
+                 */
+                wait.until(ExpectedConditions.elementToBeClickable(kcMonthFieldList.get(i))).click(); // crash
+                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month"+strMonth))).sendKeys("1");
+                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month"+strMonth))).sendKeys(Keys.TAB);
 
-            System.out.println("First SR date : " + firstSrDate);
-
+            }
             System.out.println(assetServiceProduct.size());
+        }
+
+        // select Service Products
+        for (WebElement elem : agreKCSelectedFlag) {
+            wait.until(ExpectedConditions.elementToBeClickable(elem)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(agreeSPKCSelectedFlag)).click();
+            System.out.println();
         }
         return this;
     }
