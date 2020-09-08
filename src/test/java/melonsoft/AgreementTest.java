@@ -44,7 +44,7 @@ public class AgreementTest extends BaseSetup {
 
     //Search Agreement
     @Parameters({"agreementId"})
-    @Test(priority = 100)
+    @Test( enabled=false )
     public void openAgreements(@Optional("1-46592565857") String agreementId)  {
         System.out.println("check for agreement : " + agreementId);
         homePage.openP();
@@ -72,6 +72,9 @@ public class AgreementTest extends BaseSetup {
         accountPage.createNewAgree_SPaCrg();
         accountPage.createNewAgree_AssAss();
         accountPage.createNewAgree_AssAddSP();
+        accountPage.createNewAgree_AssocSrvcProg();
+        accountPage.createNewAgree_ChkLstVer();
+        accountPage.createNewAgree_AgreeSummary();
         homePage.exit();
     }
 }

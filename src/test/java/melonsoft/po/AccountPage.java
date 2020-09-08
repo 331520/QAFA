@@ -117,7 +117,7 @@ public class AccountPage {
     WebElement agreTaskLoadTestServiceProduct;
 
     //Airbalancers Service product
-    @FindBy(xpath = "//*[@title='Airbalancers']")
+    @FindBy(xpath = "//*[@title='Chain hoists']")
     WebElement agreTaskAirbalancersServiceProduct;
 
     //Service Products:Remove from Selected Assets button
@@ -128,17 +128,41 @@ public class AccountPage {
     @FindBy(xpath = "//*[@title='Assets:Add']")
     WebElement agreTaskAssetsAddButton;
 
+    //Service Products:Copy To Selected Assets
+    @FindBy(xpath = "//*[@title='Service Products:Copy To Selected Assets']")
+    WebElement agreSPCopyToSelectedAssetsButton;
+
+    //Assets:Assoc. Srvc. Prog button
+    @FindBy(xpath = "//*[@title='Assets:Assoc. Srvc. Prog']")
+    WebElement agreSPAssetsAssocSrvcProgButton;
+
+    //Payer credit limit exceeded. Contact your local Credit Controller. Do you still want to continue?
+    @FindBy(xpath = "//button[contains(.,'Continue')]")
+    WebElement agreContinueButton;
+
+    /*//Agree acctivate button
+    @FindBy(xpath = "//*[@title='Activate']")
+    WebElement agreSPActivateButton;*/
+
+    //Agree acctivate button
+    @FindBy(css = "button[title='Activate']")
+    WebElement agreSPActivateButton;
+
+    //KC_Product_Description_Translated
+    @FindBy(xpath = "//*[@id='KC_Product_Description_Translated']")
+    WebElement agreSPKCProductDescriptionTranslated;
+
     //Task ' Payment Terms:' field
     @FindBy(id = "KC_Payment_Terms_Label")
     WebElement agrePaymentTermsField;
 
     //KC Visits
     @FindBy(css = "td[id$='KC_Visits']")
-    List <WebElement> agreKCVisits;
+    List<WebElement> agreKCVisits;
 
     //Agrreement KC_Start_Date Id
     @FindBy(css = "td[id$='KC_Start_Date']")
-    List <WebElement> kcStartDate;
+    List<WebElement> kcStartDate;
 
     //Agrreement KC_Start_Date Name
     @FindBy(name = "KC_Start_Date")
@@ -146,11 +170,27 @@ public class AccountPage {
 
     //KC Estimated Hours
     @FindBy(css = "td[id$='KC_Estimated_Hours']")
-    List <WebElement> agreKCEstimatedHours;
+    List<WebElement> agreKCEstimatedHours;
 
     //KC Selected Flag
     @FindBy(css = "td[id$='KC_Selected_Flag']")
-    List <WebElement> agreKCSelectedFlag;
+    List<WebElement> agreKCSelectedFlag;
+
+    //KC Selected Asset Flag
+    @FindBy(css = "td[id$='KC_Selected_Asset_Flag']")
+    List<WebElement> agreKCSelectedAssetFlag;
+
+    //KC_Service_Assoc_Programme_Flag
+    @FindBy(css = "td[id$='KC_Service_Assoc_Programme_Flag']")
+    List<WebElement> agreKCServiceAssocProgramme_Flag;
+
+    //KC_Product_Description_Translated
+    @FindBy(css = "td[id$='KC_Product_Description_Translated']")
+    WebElement agreKCProductDescriptionTranslatedField;
+
+    //Assets Serial_Number
+    @FindBy(css = "td[id$='Serial_Number']")
+    List<WebElement> agreKCAssetsSerialNumber;
 
     //Task 'Labor Hours' field
     @FindBy(id = "1_KC_Labor_Hours")
@@ -229,6 +269,14 @@ public class AccountPage {
     @FindBy(name = "KC_Selected_Flag")
     WebElement agreeSPKCSelectedFlag;
 
+    // KC Selected Asset Flag
+    @FindBy(name = "KC_Selected_Asset_Flag")
+    WebElement agreeKCSelectedAssetFlag;
+
+    // KC Selected Asset Flag
+    @FindBy(name = "KC_Department_Name")
+    List<WebElement> assetKCDepartmentName;
+
     public AccountPage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(this.driver, 30);
@@ -250,7 +298,7 @@ public class AccountPage {
                 // code block
         }
         driver.get(accountUrl);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
                 wait.until(ExpectedConditions.visibilityOf(reportingButton));
                 break;
@@ -268,7 +316,8 @@ public class AccountPage {
 
     @Step("Search Account By Id")
     public AccountPage searchAccount(String accountId) {
-        wait.until(ExpectedConditions.elementToBeClickable(accIdField)).click(); //crash
+        wait.until(ExpectedConditions.elementToBeClickable(accIdField)); //crash
+        accIdField.click(); //crash
         wait.until(ExpectedConditions.elementToBeClickable(accIdFieldActive)).sendKeys(accountId + "\r\n");
         wait.until(ExpectedConditions.elementToBeClickable(accountsyourKONECRANESButton));
         wait.until(ExpectedConditions.visibilityOf(accLink)).click();
@@ -330,7 +379,16 @@ public class AccountPage {
     @Step("Create New Agreement")
     public AccountPage createNewAgree(String ctst) {
         wait.until(ExpectedConditions.elementToBeClickable(agreeCreateNewButton)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(gotoInboxLink));
+        //wait.until(ExpectedConditions.visibilityOf(gotoInboxLink)); //crash
+        // Message from webpage
+        for (int i = 0; i < 5; i++) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
+                break;
+            }catch (Exception e){
+                System.out.println("No 'Continue' button yet");
+            }
+        }
         wait.until(ExpectedConditions.elementToBeClickable(pmeInfoLabel));
         wait.until(ExpectedConditions.elementToBeClickable(taskPauseButton)); //crash
         agrePONumberLabelField.sendKeys("QAFA1");
@@ -343,12 +401,22 @@ public class AccountPage {
         List<WebElement> appletButton = agreConPerSelField.findElements(By.xpath("//*[@aria-label='Selection Field']"));
         wait.until(ExpectedConditions.elementToBeClickable(appletButton.get(3))).click();
         wait.until(ExpectedConditions.elementToBeClickable(agreContOKButton)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)); //crash
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(500);
+                agreTaskNextButton.click(); //crash
+                break;
+            } catch (Exception e) {
+                System.out.println("Wrong click agreTaskNextButton");
+            }
+        }
+
 
         //
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
-        wait.until(ExpectedConditions.visibilityOf(accTaskAddress_LineField));
-        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText()); //crash
+        wait.until(ExpectedConditions.visibilityOf(accTaskAddress_LineField)); //crash
+        //System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText()); //crash
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
         wait.until(ExpectedConditions.visibilityOf(agrePaymentTermsField));
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
@@ -357,7 +425,7 @@ public class AccountPage {
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
         //
         wait.until(ExpectedConditions.visibilityOf(agreTaskBaseIndexValueField));
-        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
+        //System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText()); //error
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
 
         //2.3. Time and Material Discounts/Markups
@@ -423,13 +491,14 @@ public class AccountPage {
         appletButton.get(0).click();
         wait.until(ExpectedConditions.elementToBeClickable(agreTaskAirbalancersServiceProduct)).click();
         wait.until(ExpectedConditions.elementToBeClickable(pickProductOKButton)).click();
+
         List<WebElement> productUnitPrice = driver.findElements(By.cssSelector("td[id$='KC_Unit_Price_-_Display']"));
         for (int i = 0; i < 10; i++) {
             try {
                 Thread.sleep(500);
                 wait.until(ExpectedConditions.elementToBeClickable(productUnitPrice.get(1))).click(); // crash
                 break;
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("error click productUnitPrice field " + e.getMessage());
             }
         }
@@ -513,14 +582,14 @@ public class AccountPage {
                 strMonth = m.format(cal.getTime());
                 String firstSrDate = strMonth + "/2/" + y.format(cal.getTime());
                 // set First SR Date
-                if (j==0){
+                if (j == 0) {
                     System.out.println("First SR Date is : " + strMonth + "/2/" + y.format(cal.getTime()));
                     // set agreement's First SR Date
                     wait.until(ExpectedConditions.elementToBeClickable(kcStartDateEditable)).sendKeys(firstSrDate);
                     wait.until(ExpectedConditions.elementToBeClickable(kcStartDateEditable)).sendKeys(Keys.TAB);
                 }
                 //find month field
-                String kcMonthCssSelectorString = "td[id$='KC_Month"+strMonth+"']";
+                String kcMonthCssSelectorString = "td[id$='KC_Month" + strMonth + "']";
                 List<WebElement> kcMonthFieldList = driver.findElements(By.cssSelector(kcMonthCssSelectorString));
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", kcMonthFieldList.get(i));
                 /*
@@ -533,8 +602,8 @@ public class AccountPage {
                 }
                  */
                 wait.until(ExpectedConditions.elementToBeClickable(kcMonthFieldList.get(i))).click(); // crash
-                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month"+strMonth))).sendKeys("1");
-                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month"+strMonth))).sendKeys(Keys.TAB);
+                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month" + strMonth))).sendKeys("1");
+                wait.until(ExpectedConditions.elementToBeClickable(By.name("KC_Month" + strMonth))).sendKeys(Keys.TAB);
 
             }
             System.out.println(assetServiceProduct.size());
@@ -546,7 +615,111 @@ public class AccountPage {
             wait.until(ExpectedConditions.elementToBeClickable(agreeSPKCSelectedFlag)).click();
             System.out.println();
         }
+
+        //select all assets
+        // select Service Products
+        for (WebElement elem : agreKCSelectedAssetFlag) {
+            wait.until(ExpectedConditions.elementToBeClickable(elem)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(agreeKCSelectedAssetFlag));
+            agreeKCSelectedAssetFlag.click();
+            System.out.println();
+        }
+
+        // agreSPCopyToSelectedAssetsButton
+        wait.until(ExpectedConditions.elementToBeClickable(agreSPCopyToSelectedAssetsButton));
+        agreSPCopyToSelectedAssetsButton.click();
         return this;
     }
 
+    @Step("Create New Agreement - Assoc. Srvc. Prog")
+    public AccountPage createNewAgree_AssocSrvcProg() {
+        wait.until(ExpectedConditions.elementToBeClickable(agreSPAssetsAssocSrvcProgButton));
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(500);
+                agreSPAssetsAssocSrvcProgButton.click();
+                break;
+            } catch (Exception e) {
+                System.out.println("Error click agreSPAssetsAssocSrvcProgButton");
+            }
+        }
+        //accept js alert
+        //Wait for the alert
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        try {
+            alert.accept();
+        } catch (Exception e) {
+            System.out.println("something wrong with JS alert");
+        }
+
+        //check if second asset is clickable
+        wait.until(ExpectedConditions.elementToBeClickable(agreKCAssetsSerialNumber.get(1)));
+
+        for (WebElement element : agreKCAssetsSerialNumber) {
+            element.click();
+            //check for association
+            for (int i = 0; i < 600; i++) {
+                System.out.println(i * 2 + " seconds have passed");
+                int c = 0;
+                try {
+                    Thread.sleep(2000);
+                    //count associated SP
+                    for (WebElement e : agreKCServiceAssocProgramme_Flag) {
+                        System.out.println("Assoc check box : " + e.getAttribute("title"));
+                        if (e.getAttribute("title").equals("Checked")) {
+                            c++;
+                        }
+                    }
+
+                    // check counted
+                    if (c == 2) {
+                        System.out.println("Both associated : " + c);
+                        break;
+                    } else {
+                        System.out.println("Count of associated : " + c);
+                    }
+                    //refresh view data
+                    wait.until(ExpectedConditions.elementToBeClickable(agreKCProductDescriptionTranslatedField));
+                    agreKCProductDescriptionTranslatedField.click();
+                    agreKCProductDescriptionTranslatedField.sendKeys(Keys.ALT, Keys.RETURN);
+                } catch (Exception e) {
+                    System.out.println("Error click or send keys to agreKCProductDescriptionTranslatedField");
+                }
+            }
+        }
+
+        wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton)).click();
+        return this;
+    }
+
+    @Step("Create New Agreement - Check list verification")
+    public AccountPage createNewAgree_ChkLstVer() {
+        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
+        wait.until(ExpectedConditions.elementToBeClickable(agreTaskNextButton));
+
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(2000);
+                agreTaskNextButton.click();
+                break;
+            } catch (Exception e) {
+                System.out.println("error click agreTaskNextButton");
+            }
+        }
+
+        return this;
+    }
+
+    @Step("Create New Agreement - Agreement summary. Activation ")
+    public AccountPage createNewAgree_AgreeSummary() {
+        System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
+        wait.until(ExpectedConditions.elementToBeClickable(agreSPActivateButton)).click();
+        // Message from webpage
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
+            }catch (Exception e){
+                System.out.println("No 'Continue' button yet");
+            }
+        return this;
+    }
 }
