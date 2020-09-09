@@ -5,8 +5,11 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import test.java.melonsoft.po.AccountPage;
 import test.java.melonsoft.po.HomePage;
+import test.java.melonsoft.po.ServiceRequestPage;
 
 import java.util.HashMap;
+
+import static org.testng.Assert.assertEquals;
 
 public class ServiceRequestManCr extends BaseSetup{
     /**
@@ -21,12 +24,15 @@ public class ServiceRequestManCr extends BaseSetup{
 
     HomePage homePage;
     AccountPage accountPage;
+    ServiceRequestPage serviceRequestPage;
     HashMap hashMap;
+
 
     @BeforeMethod
     public void initialize() {
         homePage = new HomePage(driver);
         accountPage = new AccountPage(driver);
+        serviceRequestPage = new ServiceRequestPage(driver);
         hashMap = new HashMap();
     }
 
@@ -35,12 +41,16 @@ public class ServiceRequestManCr extends BaseSetup{
     public  void createServiceRequestUnderAccount(@Optional("1-1005U03T") String accountId){
         System.out.println("check for account : " + accountId);
         hashMap.put("t", "srT");
+        hashMap.put("cTst", cTst());
         //open home page
-        homePage.openT(hashMap);
-        accountPage.open(hashMap);
-        accountPage.searchAccount(accountId);
-        accountPage.goToSr();
-        accountPage.createNewSR(cTst());
+        homePage.openT(hashMap); // log in to siebel
+        accountPage.open(hashMap); // go to account page
+        accountPage.searchAccount(accountId); //
+        accountPage.goToSr(); // go to  Service Request TAB under account
+        accountPage.createNewSR(hashMap);
+        serviceRequestPage.open(); // go to Service Request Page
+        serviceRequestPage.searchSRByDescription(hashMap); // Search for Service Request  By Description
+        assertEquals(hashMap.get("srAmount").toString(), "1", "Wrong SR Account: " + hashMap.get("srDescription") + ". Expected : 1");
         homePage.exit(); //correct exit home Siebel
     }
 

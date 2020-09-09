@@ -354,7 +354,7 @@ public class AccountPage {
     }
 
     @Step("Create New Service Request")
-    public AccountPage createNewSR(String ctst) {
+    public AccountPage createNewSR(HashMap hashMap) {
         wait.until(ExpectedConditions.elementToBeClickable(srNewButton)).click();
         wait.until(ExpectedConditions.elementToBeClickable(srManGrouButton));
         for (int i = 0; i < 10; i++) {
@@ -370,9 +370,11 @@ public class AccountPage {
         wait.until(ExpectedConditions.elementToBeClickable(kcSrBillingType)).sendKeys("Time & Material");
         kcSrBillingType.sendKeys(Keys.TAB);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("td[id$='Description']"))).click();
-        srDescriptionActiveField.sendKeys("Created by QAFA at " + ctst);
+        String srDescription = "Created by QAFA at " + hashMap.get("cTst");
+        srDescriptionActiveField.sendKeys(srDescription);
+        srDescriptionActiveField.sendKeys(Keys.CONTROL, "s");
         srDescriptionActiveField.sendKeys(Keys.TAB);
-
+        hashMap.put("srDescription", srDescription);
         return this;
     }
 
@@ -385,7 +387,7 @@ public class AccountPage {
             try {
                 wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
                 break;
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("No 'Continue' button yet");
             }
         }
@@ -715,11 +717,11 @@ public class AccountPage {
         System.out.println("" + driver.findElement(By.className("kc_task_header_title")).getText());
         wait.until(ExpectedConditions.elementToBeClickable(agreSPActivateButton)).click();
         // Message from webpage
-            try {
-                wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
-            }catch (Exception e){
-                System.out.println("No 'Continue' button yet");
-            }
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
+        } catch (Exception e) {
+            System.out.println("No 'Continue' button yet");
+        }
         return this;
     }
 }

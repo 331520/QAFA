@@ -34,9 +34,12 @@ public class SalesCaseTest extends BaseSetup {
         hashMap = new HashMap();
     }
 
+
+
+
     //Search Sales Case and check Customer Contact
     @Parameters({"scId"})
-    @Test(priority = 1)
+    @Test(priority = 1, enabled = false)
     public void openSalesCase(@Optional("1-16DBZCFA") String scId)  {
         System.out.println(scId);
         homePage.openP();
