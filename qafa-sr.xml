@@ -4,8 +4,10 @@
         <listener class-name="test.java.melonsoft.utils.Listener" />
         <listener class-name="test.java.melonsoft.utils.AnnotationTransformer" />
     </listeners>
+    <!--
     <parameter name="browser" value="chrome" />
     <parameter name="scId" value="1-16DBZCFA" />
+    -->
     <test name="Creation SR manually">
         <classes>
             <class name="test.java.melonsoft.ServiceRequestManCr" />
