@@ -5,6 +5,7 @@ import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestContext;
@@ -48,6 +49,7 @@ public class BaseSetup {
         driver.quit();
     }
 
+
     //Create allure string attachment
     @Attachment
     private String attachStringToAllure() {
@@ -59,14 +61,15 @@ public class BaseSetup {
     private byte[] attachScreenToAllure() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
-//Create allure screenshots
+
+    //Create allure screenshots
     @Attachment(value = "screenshot", type = "image/png")
     public byte[] attachScreenToAllureYet() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     //current timestamp
-    public String cTst(){
+    public String cTst() {
         Date date = new Date(System.currentTimeMillis());
         // Conversion
         SimpleDateFormat sdf;

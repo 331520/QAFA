@@ -277,6 +277,8 @@ public class AccountPage {
     @FindBy(name = "KC_Department_Name")
     List<WebElement> assetKCDepartmentName;
 
+
+
     public AccountPage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(this.driver, 30);
@@ -303,7 +305,7 @@ public class AccountPage {
                 wait.until(ExpectedConditions.visibilityOf(reportingButton));
                 break;
             } catch (Exception e) {
-                System.out.println("error load : " + accountUrl + ". We will try to repeat now");
+                System.out.println("error load Accounts view. Try to repeat now. Please wait for a 30 seconds ");
                 driver.get(accountUrl);
             }
         }
@@ -356,6 +358,11 @@ public class AccountPage {
     @Step("Create New Service Request")
     public AccountPage createNewSR(HashMap hashMap) {
         wait.until(ExpectedConditions.elementToBeClickable(srNewButton)).click();
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(agreContinueButton)).click();
+        } catch (Exception e) {
+            System.out.println("No 'Continue' button yet");
+        }
         wait.until(ExpectedConditions.elementToBeClickable(srManGrouButton));
         for (int i = 0; i < 10; i++) {
             try {

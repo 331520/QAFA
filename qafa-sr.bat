@@ -1,0 +1,1 @@
+mvn clean -DsuiteXmlFile=qafa-sr.xml test

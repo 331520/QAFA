@@ -38,7 +38,7 @@ public class ServiceRequestManCr extends BaseSetup{
 
     //create sc
     @Test(priority = 1)
-    public  void createServiceRequestUnderAccount(@Optional("1-1005U03T") String accountId){
+    public  void createServiceRequestUnderAccount(@Optional("1-1004UE9A") String accountId){
         System.out.println("check for account : " + accountId);
         hashMap.put("t", "srT");
         hashMap.put("cTst", cTst());
@@ -50,7 +50,7 @@ public class ServiceRequestManCr extends BaseSetup{
         accountPage.createNewSR(hashMap);
         serviceRequestPage.open(); // go to Service Request Page
         serviceRequestPage.searchSRByDescription(hashMap); // Search for Service Request  By Description
-        assertEquals(hashMap.get("srAmount").toString(), "1", "Wrong SR Account: " + hashMap.get("srDescription") + ". Expected : 1");
+        assertEquals(hashMap.get("srAmount").toString(), "1", "Wrong SR count: " + hashMap.get("srDescription") + ". Expected : 1");
         homePage.exit(); //correct exit home Siebel
     }
 
