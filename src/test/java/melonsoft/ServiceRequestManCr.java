@@ -1,5 +1,6 @@
 package test.java.melonsoft;
 
+import io.qameta.allure.Epic;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 
 import static org.testng.Assert.assertEquals;
 
+@Epic("Service Request Tests")
 public class ServiceRequestManCr extends BaseSetup{
     /**
      * The ServiceRequestManCr implements an application that
