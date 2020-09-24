@@ -1,6 +1,8 @@
 package test.java.melonsoft.utils;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
+import test.java.melonsoft.BaseSetup;
 
 public class Listener implements
         ISuiteListener,
@@ -35,9 +37,10 @@ public class Listener implements
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
+        BaseSetup baseSetup = new BaseSetup();
         System.out.println("test failed : " + iTestResult.getTestClass().getName() +". Test name: "+ iTestResult.getMethod().getConstructorOrMethod().getName());
-        /*Screenshot screenshot = new Screenshot((WebDriver) iTestResult.getTestContext().getAttribute("driver"));
-        screenshot.getScreenshot(iTestResult);*/
+        Screenshot screenshot = new Screenshot((WebDriver) iTestResult.getTestContext().getAttribute("driver"));
+        screenshot.getScreenshot(iTestResult);
     }
 
     @Override

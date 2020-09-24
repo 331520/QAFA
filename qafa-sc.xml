@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="FirstSuite" parallel="classes" thread-count="1">
+    <listeners>
+        <listener class-name="test.java.melonsoft.utils.Listener" />
+        <listener class-name="test.java.melonsoft.utils.AnnotationTransformer" />
+    </listeners>
+    <!--
+    <parameter name="browser" value="chrome" />
+    <parameter name="scId" value="1-16DBZCFA" />
+    -->
+    <test name="Automated OQ SC creation from SR">
+        <classes>
+            <class name="test.java.melonsoft.SalesCaseTest" />
+        </classes>
+    </test>
+</suite>
