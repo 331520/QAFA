@@ -46,9 +46,15 @@ public class SalesCaseTest extends BaseSetup {
     }
 
 
-    // Creation of OQ SC from SR
+    /**
+     * This method is used to Creation of OQ SC from SR.
+     * For correct work please set Service Request ID in the
+     * config.properties file, for 'sReqNumberForSC' parameter.
+     *
+     */
+
     @Test(priority = 1, enabled = true)
-    public void createSalesCaseFromSR(@Optional("1-16DBZCFA") String scId) throws IOException, UnsupportedFlavorException {
+    public void createSalesCaseFromSR() throws IOException, UnsupportedFlavorException {
         log.debug("Start create Sales Case From SR");
         hashMap.put("t", "srT");
         hashMap.put("srId", PropertyLoader.loadProperty("sReqNumberForSC"));
