@@ -1,4 +1,4 @@
-# Alex Arnuzov Demo Project
+# Alex Arnuzov Project
 ## Features:
 #### Selenium  
 #### Java
@@ -8,4 +8,3 @@
 #### Test's Repeatability (implements IRetryAnalyzer)
 #### Listeners
 ###### This is part of the real tests realized on PROD instance of Siebel CRM.
-###### It was created by myself, using my own skills
